@@ -45,6 +45,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody?.usesPreciseCollisionDetection = true
         addChild(ball)
         addChild(player)
+        moveBall()
+    }
+    
+    func moveBall() {
+        ball.physicsBody?.velocity = CGVector(dx: 1, dy: 1)
     }
     
     func addBlocks(){
