@@ -15,6 +15,7 @@
 		D6D5E58822A05D6900E64091 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6D5E58622A05D6900E64091 /* Main.storyboard */; };
 		D6D5E58A22A05D6D00E64091 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6D5E58922A05D6D00E64091 /* Assets.xcassets */; };
 		D6D5E58D22A05D6D00E64091 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6D5E58B22A05D6D00E64091 /* LaunchScreen.storyboard */; };
+		D6D5E59522A06CE500E64091 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5E59422A06CE500E64091 /* VectorMath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		D6D5E58922A05D6D00E64091 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D6D5E58C22A05D6D00E64091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6D5E58E22A05D6D00E64091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D6D5E59422A06CE500E64091 /* VectorMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorMath.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				D6D5E57E22A05D6900E64091 /* GameScene.sks */,
 				D6D5E58022A05D6900E64091 /* Actions.sks */,
 				D6D5E58222A05D6900E64091 /* GameScene.swift */,
+				D6D5E59422A06CE500E64091 /* VectorMath.swift */,
 				D6D5E58422A05D6900E64091 /* GameViewController.swift */,
 				D6D5E58622A05D6900E64091 /* Main.storyboard */,
 				D6D5E58922A05D6D00E64091 /* Assets.xcassets */,
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6D5E59522A06CE500E64091 /* VectorMath.swift in Sources */,
 				D6D5E58322A05D6900E64091 /* GameScene.swift in Sources */,
 				D6D5E58522A05D6900E64091 /* GameViewController.swift in Sources */,
 				D6D5E57D22A05D6900E64091 /* AppDelegate.swift in Sources */,
