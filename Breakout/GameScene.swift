@@ -11,9 +11,9 @@ import GameplayKit
 
 struct PhysicsCategory{
     static let None : UInt32 = 0
-    static let All : UInt32 = UInt32.max
+    static let Border : UInt32 = UInt32.max
     static let Block : UInt32 = 0b1
-    static let Player : UInt32 = 0b1
+    static let Player : UInt32 = 0b10
     static let Ball : UInt32 = 0b10
 }
 
@@ -21,7 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var background = SKSpriteNode(imageNamed: "background")
     var player = SKSpriteNode(imageNamed: "paddle")
-    var ball = SKSpriteNode(imageNamed: "ball")
+    var ball = SKSpriteNode(imageNamed: "MobileMakerIconPinImage")
     
     override func didMove(to view: SKView) {
 //        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
@@ -30,10 +30,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        addChild(background)
         physicsWorld.gravity = CGVector.zero
         physicsWorld.contactDelegate = self
+        let borderBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+        borderBody.friction = 0
+        self.physicsBody = borderBody
+        self.physicsBody?.isDynamic = true
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Border
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.Ball
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None
         player.position = CGPoint(x: self.size.width / 2.0 , y: self.size.height / 5.0)
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.isDynamic = true
-        player.physicsBody?.categoryBitMask = PhysicsCategory.Block
+        player.physicsBody?.categoryBitMask = PhysicsCategory.Player
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Ball
         player.physicsBody?.collisionBitMask = PhysicsCategory.None
         ball.position = CGPoint(x: self.size.width / 2.0, y: self.size.height / 2.5)
@@ -49,8 +56,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func moveBall() {
-        ball.physicsBody?.velocity = CGVector(dx: 1, dy: 1)
+        var velocity = CGVector(dx: 20, dy: 20)
+        ball.physicsBody?.velocity = velocity
+        ball.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
     }
+    
     
     func addBlocks(){
         let block = SKSpriteNode(imageNamed: "block")
@@ -96,4 +106,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: touchLocation.x, y: player.position.y)
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        let firstBody = contact.bodyA
+        let secondBody = contact.bodyB
+        if let block = firstBody.node as? SKSpriteNode,
+            let ball = secondBody.node as? SKSpriteNode{
+            ballDidCollide(nodeA: ball, nodeB: block)
+        }
+        if let border = firstBody.node as? SKScene,
+            let ball = secondBody.node as?SKSpriteNode{
+            ballHitBorder(nodeA: ball, nodeB: border)
+        }
+    }
+    
+    func ballDidCollide(nodeA: SKSpriteNode, nodeB: SKSpriteNode){
+        print("hit")
+        //nodeA.removeFromParent()
+        if nodeB.physicsBody?.categoryBitMask == PhysicsCategory.Block{
+            nodeB.removeFromParent()
+            var ballVelocity = nodeA.physicsBody?.velocity
+            ballVelocity!.dy = -ballVelocity!.dy
+            nodeA.physicsBody?.velocity = ballVelocity!
+        }
+        if nodeB.physicsBody?.categoryBitMask == PhysicsCategory.Player{
+            var ballVelocity = nodeA.physicsBody?.velocity
+            ballVelocity!.dy = -ballVelocity!.dy
+            ballVelocity!.dx = -ballVelocity!.dx
+            nodeA.physicsBody?.velocity = ballVelocity!
+        }
+    }
+    
+    func ballHitBorder(nodeA: SKSpriteNode, nodeB: SKScene){
+        var ballVelocity = nodeA.physicsBody?.velocity
+        ballVelocity!.dy = -ballVelocity!.dy
+        ballVelocity!.dx = -ballVelocity!.dx
+        nodeA.physicsBody?.velocity = ballVelocity!
+    }
 }
